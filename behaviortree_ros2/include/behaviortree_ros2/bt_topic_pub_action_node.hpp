@@ -121,6 +121,7 @@ private:
   std::shared_ptr<Publisher> publisher_;
   msec duration_;
   rclcpp::Time start_time_;
+  TopicT publish_msg_;
 
   bool createPublisher(const std::string& topic_name);
 };
@@ -217,7 +218,8 @@ inline NodeStatus RosTopicPubStatefulActionNode<T>::onStart()
   {
     return NodeStatus::FAILURE;
   }
-  publisher_->publish(msg);
+  publish_msg_ = msg;
+  publisher_->publish(publish_msg_);
 
   // Record start time
   start_time_ = node_->now();
@@ -229,6 +231,7 @@ inline NodeStatus RosTopicPubStatefulActionNode<T>::onRunning()
 {
   auto elapsed = node_->now() - start_time_;
   auto elapsed_ms = elapsed.to_chrono<msec>();
+  publisher_->publish(publish_msg_);
 
   return (elapsed_ms < duration_) ? NodeStatus::RUNNING : NodeStatus::SUCCESS;
 }
