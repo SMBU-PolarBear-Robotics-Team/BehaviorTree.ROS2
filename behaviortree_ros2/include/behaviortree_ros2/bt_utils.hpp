@@ -15,6 +15,9 @@
 #include <memory>
 #include <thread>
 
+// auto-generated header, created by generate_parameter_library
+#include "behaviortree_ros2/bt_executor_parameters.hpp"
+
 #include "btcpp_ros2_interfaces/msg/node_status.hpp"
 
 #include "behaviortree_cpp/bt_factory.h"
